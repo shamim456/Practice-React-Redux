@@ -12,17 +12,8 @@ const delyMiddleWares = (store) => (next) => (action) => {
 };
 
 const fetchTodosMiddleWares = (store) => (next) => async (action) => {
-  if (action.type === "todos/todosFetch") {
-    const response = await fetch(
-      "https://jsonplaceholder.typicode.com/todos?_limit=5"
-    );
-    const todos = await response.json();
-    store.dispatch({
-      type: "todos/todosLoaded",
-      payload: todos,
-    });
-    console.log(store.getState());
-    return;
+  if (typeof action === "function") {
+    return action(store.dispatch, store.getState);
   }
   next(action);
 };

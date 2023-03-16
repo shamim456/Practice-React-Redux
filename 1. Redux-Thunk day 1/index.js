@@ -1,8 +1,10 @@
-// initial state
-
 const { createStore, applyMiddleware } = require("redux");
-const { delyMiddleWares, fetchTodosMiddleWares } = require("./middleWares");
+// const { delyMiddleWares, fetchTodosMiddleWares } = require("./middleWares");
+const { fetchTodos } = require("./functions");
 
+const thunkMiddleWare = require("redux-thunk");
+
+// initial state
 const initialState = {
   todos: [],
 };
@@ -37,7 +39,7 @@ const todosReducer = (state = initialState, action) => {
 
 const store = createStore(
   todosReducer,
-  applyMiddleware(delyMiddleWares, fetchTodosMiddleWares)
+  applyMiddleware(thunkMiddleWare.default)
 );
 
 // subscribe to store
@@ -53,6 +55,4 @@ store.dispatch({
   payload: "Hello shamim",
 });
 
-store.dispatch({
-  type: "todos/todosFetch",
-});
+store.dispatch(fetchTodos);
